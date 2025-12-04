@@ -306,7 +306,7 @@ GET /api/v1/users?page=1&limit=50&search=username
 Authorization: Bearer <access_token>
 ```
 
-**Параметры запроса:**
+**Request parameters:**
 - `page` - page number (default: 1)
 - `limit` - number of users per page (default: 50, maximum: 100)
 - `search` - search by login (optional)
@@ -360,7 +360,7 @@ GET /api/v1/users/search?query=username&limit=20
 Authorization: Bearer <access_token>
 ```
 
-**Параметры запроса:**
+**Request parameters:**
 - `query` - search query (required)
 - `limit` - limit the number of results (default: 20, maximum: 50)
 
@@ -481,7 +481,7 @@ GET /api/v1/messages?unread_only=true&after_message_id=last_id&limit=50
 Authorization: Bearer <access_token>
 ```
 
-**Параметры запроса:**
+**Request parameters:**
 - `unread_only` - unread messages only (default: false)
 - `after_message_id` - receive messages after the specified ID
 - `before_message_id` - receive messages up to the specified ID

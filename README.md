@@ -62,11 +62,11 @@ Key server features:
 ---
 
 ## API
-A description of the API look in [this guide](https://raw.githubusercontent.com/ProphetRu/NovaChatServer/master/docs/API.md).
+A description of the API look in [this guide](https://github.com/ProphetRu/NovaChatServer/blob/master/docs/API.md).
 
-A description of the API for Swagger Editor [look here](https://raw.githubusercontent.com/ProphetRu/NovaChatServer/master/docs/swagger.yaml).
+A description of the API for Swagger Editor [look here](https://github.com/ProphetRu/NovaChatServer/blob/master/docs/swagger.yaml).
 
---
+---
 
 ## How to use the project
 ### Database setup
@@ -74,14 +74,14 @@ A description of the API for Swagger Editor [look here](https://raw.githubuserco
 * Configure a remote connection to the database;
 * Generate SSL certificates and set up a secure connection to the database;
 * Create a database user;
-* Create tables, relationships, functions, triggers using [this guide](https://raw.githubusercontent.com/ProphetRu/NovaChatServer/master/docs/Database%20schema.md);
+* Create tables, relationships, functions, triggers using [this guide](https://github.com/ProphetRu/NovaChatServer/blob/master/docs/Database%20schema.md);
 
 ---
 
 ### Server setup
 * Generate SSL certificates for the server;
 * Copy the certificates to the `src/sslCerts` folder;
-* Edit the config file `src/config.json` using [this guide](https://raw.githubusercontent.com/ProphetRu/NovaChatServer/master/docs/config.md);
+* Edit the config file `src/config.json` using [this guide](https://github.com/ProphetRu/NovaChatServer/blob/master/docs/config.md);
 
 ---
 
@@ -119,4 +119,4 @@ ctest
 ```
 
 #### Postman
-A collection with tests for Postman [look here](https://raw.githubusercontent.com/ProphetRu/NovaChatServer/master/docs/NovaChatServer.postman_collection.json).
+A collection with tests for Postman [look here](https://github.com/ProphetRu/NovaChatServer/blob/master/docs/NovaChatServer.postman_collection.json).
