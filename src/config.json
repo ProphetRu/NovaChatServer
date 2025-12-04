@@ -1,0 +1,33 @@
+{
+    "server": {
+        "address": "0.0.0.0",
+        "port": 8443,
+        "threads": 4
+    },
+    "ssl": {
+        "certificate_file": "sslCerts/server.crt",
+        "private_key_file": "sslCerts/server.key",
+        "dh_params_file": "sslCerts/dhparams.pem"
+    },
+    "database": {
+		    "address": "192.168.50.37",
+		    "port": 5432,
+		    "username": "chat_user",
+		    "password": "chat_user",
+		    "db_name": "chat_db",
+        "max_connections": 10,
+		    "connection_timeout": 10
+    },
+    "jwt": {
+        "secret_key": "MJ1IdWHzDpT7VfGZQFRScabPuxEs1EEP",
+        "access_token_expiry_minutes": 15,
+        "refresh_token_expiry_days": 7
+    },
+    "logging": {
+        "level": "debug",
+        "access_log": "access.log",
+        "error_log": "error.log",
+        "console_output": true,
+        "log_access": true
+    }
+}

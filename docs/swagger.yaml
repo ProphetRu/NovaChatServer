@@ -1,0 +1,701 @@
+openapi: 3.0.0
+info:
+  title: Nova Chat Server API
+  description: Nova Chat Server API
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@novachatserver.com
+
+servers:
+  - url: https://api.novachatserver.com
+    description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: string
+          enum: [error]
+          example: error
+        code:
+          type: string
+          example: VALIDATION_ERROR
+        message:
+          type: string
+          example: Login and password are required
+
+    SuccessResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum: [success]
+          example: success
+        message:
+          type: string
+          example: Operation completed successfully
+
+    AuthRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          example: username
+        password:
+          type: string
+          example: SecurePass123!
+
+    RegisterResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            user_id:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            login:
+              type: string
+              example: username
+
+    LoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - access_token
+            - refresh_token
+            - token_type
+            - expires_in
+            - user_id
+            - login
+          properties:
+            access_token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            refresh_token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            token_type:
+              type: string
+              enum: [Bearer]
+              example: Bearer
+            expires_in:
+              type: integer
+              example: 900
+            user_id:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            login:
+              type: string
+              example: username
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    LogoutRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - old_password
+        - new_password
+      properties:
+        old_password:
+          type: string
+          example: CurrentPass123!
+        new_password:
+          type: string
+          example: NewSecurePass456!
+
+    UserInfo:
+      type: object
+      required:
+        - user_id
+        - login
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440000
+        login:
+          type: string
+          example: username
+
+    UsersListResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserInfo'
+            pagination:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 50
+                total_count:
+                  type: integer
+                  example: 150
+                total_pages:
+                  type: integer
+                  example: 3
+                has_next:
+                  type: boolean
+                  example: true
+                has_prev:
+                  type: boolean
+                  example: false
+
+    SearchUsersResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserInfo'
+            meta:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example: username
+                count:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 20
+
+    SendMessageRequest:
+      type: object
+      required:
+        - to_login
+        - message
+      properties:
+        to_login:
+          type: string
+          example: recipient_username
+        message:
+          type: string
+          minLength: 1
+          maxLength: 5000
+          example: Hello there!
+
+    SendMessageResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            message_id:
+              type: string
+              format: uuid
+              example: 660e8400-e29b-41d4-a716-446655440000
+            sent_at:
+              type: string
+              format: date-time
+              example: 2024-01-15T10:30:00.000Z
+
+    Message:
+      type: object
+      required:
+        - message_id
+        - from_login
+        - to_login
+        - message
+        - timestamp
+        - is_read
+      properties:
+        message_id:
+          type: string
+          format: uuid
+          example: 660e8400-e29b-41d4-a716-446655440000
+        from_login:
+          type: string
+          example: sender_username
+        to_login:
+          type: string
+          example: recipient_username
+        message:
+          type: string
+          example: Hello!
+        timestamp:
+          type: string
+          format: date-time
+          example: 2024-01-15T10:30:00.000Z
+        is_read:
+          type: boolean
+          example: false
+
+    MessagesResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            messages:
+              type: array
+              items:
+                $ref: '#/components/schemas/Message'
+            meta:
+              type: object
+              properties:
+                total_count:
+                  type: integer
+                  example: 15
+                unread_count:
+                  type: integer
+                  example: 3
+                last_message_id:
+                  type: string
+                  format: uuid
+                  example: 660e8400-e29b-41d4-a716-446655440001
+                has_more:
+                  type: boolean
+                  example: false
+
+    MarkMessagesReadRequest:
+      type: object
+      required:
+        - message_ids
+      properties:
+        message_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          example: ["660e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"]
+
+    MarkMessagesReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          properties:
+            read_count:
+              type: integer
+              example: 2
+
+paths:
+  /api/v1/auth/register:
+    post:
+      summary: User registration
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '201':
+          description: The user has been successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: A user with this login already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/login:
+    post:
+      summary: User authentication
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Required fields are missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Incorrect credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/refresh:
+    post:
+      summary: Access Token Refresh
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: The token has been updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Refresh token missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/logout:
+    post:
+      summary: Logout
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+      responses:
+        '200':
+          description: Successful logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Refresh token missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/password:
+    put:
+      summary: Change password
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: The current password is incorrect
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/account:
+    delete:
+      summary: Deleting an account
+      description: >
+        Deleting a user account.
+        IMPORTANT: This operation is irreversible!
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: The account has been successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/users:
+    get:
+      summary: Viewing the list of users
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The user list was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersListResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/users/search:
+    get:
+      summary: Search for a user
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        '200':
+          description: Search results received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUsersResponse'
+        '400':
+          description: Search query missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/messages/send:
+    post:
+      summary: Sending a message
+      tags: [Messages]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '201':
+          description: The message has been sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        '400':
+          description: Message validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The recipient user was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/messages:
+    get:
+      summary: Receiving messages
+      tags: [Messages]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: unread_only
+          in: query
+          schema:
+            type: boolean
+            default: false
+        - name: after_message_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: before_message_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+        - name: conversation_with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Messages received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/messages/read:
+    post:
+      summary: Marking messages as read
+      tags: [Messages]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkMessagesReadRequest'
+      responses:
+        '200':
+          description: Messages marked as read
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarkMessagesReadResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

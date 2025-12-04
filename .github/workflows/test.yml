@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    permissions: write-all
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          
+      - name: Download vcpkg
+        run: 'git clone https://github.com/Microsoft/vcpkg.git'
+        
+      - name: Install vcpkg
+        run: '.\vcpkg\bootstrap-vcpkg.bat -disableMetrics'
+        
+      - name: Install dependencies
+        run: '.\vcpkg\vcpkg install  boost-beast boost-asio openssl boost-uuid nlohmann-json libpqxx jwt-cpp boost-program-options boost-algorithm gtest'
+        
+      - name: Integrate vcpkg
+        run: '.\vcpkg\vcpkg integrate install'
+        
+      - name: Build project
+        run: |
+          cmake . -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake --build . --config Release
+          
+      - name: Test project
+        run: ctest
