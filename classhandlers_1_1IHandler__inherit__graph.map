@@ -1,0 +1,6 @@
+<map id="handlers::IHandler" name="handlers::IHandler">
+<area shape="rect" id="node1" title="Abstract base class for HTTP request handlers." alt="" coords="197,5,382,317"/>
+<area shape="rect" id="node2" href="$classhandlers_1_1AuthHandlers.html" title="Handles authentication&#45;related HTTP endpoints." alt="" coords="5,365,173,545"/>
+<area shape="rect" id="node3" href="$classhandlers_1_1MessageHandlers.html" title="Handles message&#45;related HTTP endpoints." alt="" coords="198,365,381,545"/>
+<area shape="rect" id="node4" href="$classhandlers_1_1UserHandlers.html" title="Handles user&#45;related HTTP endpoints." alt="" coords="405,365,573,545"/>
+</map>

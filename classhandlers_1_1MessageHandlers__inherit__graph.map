@@ -1,0 +1,4 @@
+<map id="handlers::MessageHandlers" name="handlers::MessageHandlers">
+<area shape="rect" id="node1" title="Handles message&#45;related HTTP endpoints." alt="" coords="7,365,189,545"/>
+<area shape="rect" id="node2" href="$classhandlers_1_1IHandler.html" title="Abstract base class for HTTP request handlers." alt="" coords="5,5,191,317"/>
+</map>

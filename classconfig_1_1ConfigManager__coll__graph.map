@@ -1,0 +1,3 @@
+<map id="config::ConfigManager" name="config::ConfigManager">
+<area shape="rect" id="node1" title="Manages application configuration from JSON files." alt="" coords="5,5,169,229"/>
+</map>

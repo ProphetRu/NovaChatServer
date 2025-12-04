@@ -1,0 +1,4 @@
+<map id="models::Message" name="models::Message">
+<area shape="rect" id="node1" title="Represents a message exchanged between users." alt="" coords="23,351,153,619"/>
+<area shape="rect" id="node2" href="$classmodels_1_1IModel.html" title="Abstract base class for all data models in the system." alt="" coords="5,5,171,303"/>
+</map>

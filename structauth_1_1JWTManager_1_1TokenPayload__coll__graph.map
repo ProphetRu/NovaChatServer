@@ -1,0 +1,3 @@
+<map id="auth::JWTManager::TokenPayload" name="auth::JWTManager::TokenPayload">
+<area shape="rect" id="node1" title="Represents decoded JWT token payload." alt="" coords="5,5,224,156"/>
+</map>

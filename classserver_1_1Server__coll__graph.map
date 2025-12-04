@@ -1,0 +1,3 @@
+<map id="server::Server" name="server::Server">
+<area shape="rect" id="node1" title="Main server class that orchestrates all components of the chat application." alt="" coords="5,5,108,200"/>
+</map>

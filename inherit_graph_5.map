@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classhandlers_1_1IHandler.html" title="Abstract base class for HTTP request handlers." alt="" coords="5,56,132,83"/>
+<area shape="rect" id="node2" href="$classhandlers_1_1AuthHandlers.html" title="Handles authentication&#45;related HTTP endpoints." alt="" coords="193,5,349,32"/>
+<area shape="rect" id="node3" href="$classhandlers_1_1MessageHandlers.html" title="Handles message&#45;related HTTP endpoints." alt="" coords="180,56,363,83"/>
+<area shape="rect" id="node4" href="$classhandlers_1_1UserHandlers.html" title="Handles user&#45;related HTTP endpoints." alt="" coords="193,107,350,133"/>
+</map>

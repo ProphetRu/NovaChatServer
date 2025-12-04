@@ -1,0 +1,4 @@
+<map id="models::User" name="models::User">
+<area shape="rect" id="node1" title="Represents a user entity in the system." alt="" coords="5,351,177,619"/>
+<area shape="rect" id="node2" href="$classmodels_1_1IModel.html" title="Abstract base class for all data models in the system." alt="" coords="9,5,174,303"/>
+</map>
